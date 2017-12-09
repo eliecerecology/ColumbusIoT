@@ -11,51 +11,13 @@ pin2 = 11 #backward right wheel
 pin3 = 12 #forward left wheel
 pin4 = 13 #backward left wheel
 
-def init():
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.setup(pin2, GPIO.OUT)
-    GPIO.setup(pin3, GPIO.OUT)
-    GPIO.setup(pin4, GPIO.OUT)
+from PWNTestCompleted import init
+from PWNTestCompleted import forward
+from PWNTestCompleted import backward
+from PWNTestCompleted import turn_right
+from PWNTestCompleted import turn_left
 
-def forward(tf):
-    init()
-    p = GPIO.PWM(pin, 50)
-    p1 = GPIO.PWM(pin3, 50)
-    p.start(60)
-    p1.start(60)
-    time.sleep(tf)
-    p.start(0)
-    p1.start(0)
 
-def backward(tf):
-    init()
-    q= GPIO.PWM(pin2, 50)
-    q1= GPIO.PWM(pin4, 50)
-    q.start(60)
-    q1.start(60)
-    time.sleep(tf)
-    q.start(0)
-    q1.start(0)
-
-def turn_right(tf):
-    init()
-    p = GPIO.PWM(pin, 50)
-    q1= GPIO.PWM(pin4, 50)
-    p.start(60)
-    q1.start(60)
-    time.sleep(tf)
-    p.start(0)
-    q1.start(0)
-
-def turn_left(tf):
-    init()
-    p1 = GPIO.PWM(pin3, 50)
-    q1= GPIO.PWM(pin2, 50)
-    p1.start(60)
-    q1.start(60)
-    time.sleep(tf)
-    p1.start(0)
-    q1.start(0)
 class Player(pg.sprite.Sprite):
 
     def __init__(self, pos=(220, 220)):
