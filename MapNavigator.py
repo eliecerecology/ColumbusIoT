@@ -2,7 +2,60 @@ import math
 import pygame as pg
 from pygame.math import Vector2
 
+import RPi.GPIO as GPIO
+import time
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+pin = 7 # forward right wheel
+pin2 = 11 #backward right wheel
+pin3 = 12 #forward left wheel
+pin4 = 13 #backward left wheel
 
+def init():
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.setup(pin2, GPIO.OUT)
+    GPIO.setup(pin3, GPIO.OUT)
+    GPIO.setup(pin4, GPIO.OUT)
+
+def forward(tf):
+    init()
+    p = GPIO.PWM(pin, 50)
+    p1 = GPIO.PWM(pin3, 50)
+    p.start(60)
+    p1.start(60)
+    time.sleep(tf)
+    p.start(0)
+    p1.start(0)
+
+def backward(tf):
+    init()
+    q= GPIO.PWM(pin2, 50)
+    q1= GPIO.PWM(pin4, 50)
+    q.start(60)
+    q1.start(60)
+    time.sleep(tf)
+    q.start(0)
+    q1.start(0)
+
+def turn_right(tf):
+    init()
+    p = GPIO.PWM(pin, 50)
+    q1= GPIO.PWM(pin4, 50)
+    p.start(60)
+    q1.start(60)
+    time.sleep(tf)
+    p.start(0)
+    q1.start(0)
+
+def turn_left(tf):
+    init()
+    p1 = GPIO.PWM(pin3, 50)
+    q1= GPIO.PWM(pin2, 50)
+    p1.start(60)
+    q1.start(60)
+    time.sleep(tf)
+    p1.start(0)
+    q1.start(0)
 class Player(pg.sprite.Sprite):
 
     def __init__(self, pos=(220, 220)):
@@ -54,13 +107,15 @@ def main():
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_UP:
                     player.speed = 0.5
+                    forward(0.5)
                 elif event.key == pg.K_DOWN:
                     player.speed = 0.5
                 elif event.key == pg.K_LEFT:
                     player.angle_speed = -0.5
+                    turn_left(0.5)
                 elif event.key == pg.K_RIGHT:
                     player.angle_speed = 0.5
-
+                    turn_right(0.5)
             elif event.type == pg.KEYUP:
                 if event.key == pg.K_LEFT:
                     player.angle_speed = 0
