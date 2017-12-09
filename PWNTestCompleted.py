@@ -58,31 +58,12 @@ def turn_left(tf):
 
 #def key_input(event):
 
-forward(2)
-backward(2)
-turn_right(2)
-turn_left(2)
+#forward(2)
+#backward(2)
+#turn_right(2)
+#turn_left(2)
 
-def key_input(event):
-	init()
-	print 'Key:', event.char
-	key_press = event.char
-	sleep.time = 0.030
-	
-	if key_press.lower() == "K_UP":
-	    forward(tf)
-	elif key_press.lower() == "K_DOWN":
-		backward(tf)
-	elif key_press.lower() == "K_RIGHT":
-		turn_right(tf)
-	elif key_press.lower() == "K_LEFT":
-		turn_left(tf)
-		
-command = tk.TK
-command.blind('<KeyPress>'>, key_input)
-command.mainloop
 
-print("test completed!")
 
 #for  i in range(40, 60, 10): #frequency pulse per second
 #    for j in range(40,60,10): #duty cycle
