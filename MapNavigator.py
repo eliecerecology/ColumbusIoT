@@ -112,10 +112,10 @@ def main():
                     player.speed = -0.3
                     backward(0.1)
                 elif event.key == pg.K_LEFT:
-                    player.angle_speed = 0.3
+                    player.angle_speed = -0.8
                     turn_left(0.1)
                 elif event.key == pg.K_RIGHT:
-                    player.angle_speed = -0.3
+                    player.angle_speed = 0.8
                     turn_right(0.1)
             elif event.type == pg.KEYUP:
                 if event.key == pg.K_LEFT:
