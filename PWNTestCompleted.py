@@ -36,13 +36,15 @@ def backwards(tf):
 
 def turn_right(tf):
 	init()
-	p = GPIO.PWM(pin, 50) #forward right
+	p = GPIO.PWM(pin, 50)
 	q1= GPIO.PWM(pin4, 50)
-    p.start(60)
+	p.start(60)
 	q1.start(60)
 	time.sleep(tf)
 	p.start(0)
 	q1.start(0)
+	
+	
 	
 def turn_left(tf):
 	init()
