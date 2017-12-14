@@ -1,5 +1,6 @@
 import pygame
 import time
+import random
 
 #basic elements
 pygame.init()
@@ -8,6 +9,7 @@ width = 800
 height = 600
 #colors
 black = (0,0,0)
+blue = (0,255,255)
 white = (255, 255, 255)
 #vehicle
 #These are to set the borders of the game:
@@ -37,8 +39,14 @@ def message_display(text):
 
 def crash():
     message_display('Obstacle not detected')
-###this text   
+
+###OBSTACLES  
+def obstacles(obstaclex, obstacley, obstaclew, obstacleh, color):
+    pygame.draw.rect(gameDisplay, color, [obstaclex, obstacley,obstaclew, obstacleh])
     
+def fix_obsta(pos_x, pos_y, pos_w, pos_h, color):
+    pygame.draw.rect(gameDisplay, color, [pos_x, pos_y,pos_w, pos_h])
+        
 gameDisplay = pygame.display.set_mode((width, height))
 pygame.display.set_caption('ARENA..')
 clock = pygame.time.Clock() 
@@ -47,11 +55,31 @@ def game_loop():
     #vehicle variables
     x = (width/2)
     y = (height/2)
-
-    GameExit = False
     x_change = 0
     i = 0
+    
+    #POSITION OBSTACLES
+    #obstacles coordinates (starting point)
+    obstacle_startx = random.randrange(0, width) #from 0 to ancho
+    obstacle_starty = -400 #from 0 to ancho
+    obstacle_speed = 7
+    obsta_width = 100
+    obsta_height = 100
 
+    #sensor measure
+    pos_x = width/2 
+    pos_y = 100
+    pos_w = 20
+    pos_h= 20
+    
+
+
+
+
+
+    
+    GameExit = False
+    
     #main loop
     while not GameExit:
     #for i in range(1,100):
@@ -78,12 +106,21 @@ def game_loop():
                     
         gameDisplay.fill(black)
         x += x_change
+        obstacles(obstacle_startx, obstacle_starty, obsta_width, obsta_height, blue) 
+        obstacle_starty += obstacle_speed
+
+        fix_obsta(pos_x, pos_y, pos_w, pos_h, blue)
+        fix_obsta(100, 100, 20, 20, white)
         vehicle(x,y) #object on top of display (always)
         if x > (width-vehicle_width) or x < 0:
              crash()
         elif y >(height-vehicle_height) or y < 0:
              crash()
-             #message_display("fun game")
+        #message_display("fun game")
+
+        if obstacle_starty > height: #heigh of display)
+            obstacle_starty = 0 - obsta_height
+            obstacle_startx = random.randrange(0, width)
                  
         pygame.display.update()
         clock.tick(60)
