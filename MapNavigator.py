@@ -16,6 +16,8 @@ from PWNTestCompleted import forward
 from PWNTestCompleted import backward
 from PWNTestCompleted import turn_right
 from PWNTestCompleted import turn_left
+import i2clibraries 
+
 
 
 class Player(pg.sprite.Sprite):
