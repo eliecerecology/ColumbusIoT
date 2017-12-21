@@ -1,9 +1,13 @@
 import math
 import pygame as pg
 from pygame.math import Vector2
+from i2clibraries import i2c_hmc5883l
+ 
+import time
 
 import RPi.GPIO as GPIO
-import time
+
+
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 pin = 7 # forward right wheel
@@ -16,7 +20,15 @@ from PWNTestCompleted import forward
 from PWNTestCompleted import backward
 from PWNTestCompleted import turn_right
 from PWNTestCompleted import turn_left
-import i2clibraries 
+
+
+#Magnetometer
+hmc5883l = i2c_hmc5883l.i2c_hmc5883l(1) #choosing which i2c port to use, RPi2 model B uses port 1
+hmc5883l.setContinuousMode()
+hmc5883l.setDeclination(0,6) #in brakets (degrees, minute)
+
+i = hmc5883l
+print(i)
 
 
 
@@ -39,6 +51,8 @@ class Player(pg.sprite.Sprite):
             # Rotate the direction vector and then the image.
             self.direction.rotate_ip(self.angle_speed)
             self.angle += self.angle_speed
+            print(self.angle)
+            print(i)
             self.image = pg.transform.rotate(self.original_image, -self.angle)
             self.rect = self.image.get_rect(center=self.rect.center)
         # Update the position vector and the rect.
@@ -70,10 +84,10 @@ def main():
                 done = True
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_UP:
-                    player.speed = 0.3
+                    player.speed = 0.5
                     forward(0.1)
                 elif event.key == pg.K_DOWN:
-                    player.speed = -0.3
+                    player.speed = -0.5
                     backward(0.1)
                 elif event.key == pg.K_LEFT:
                     player.angle_speed = -0.8
