@@ -38,6 +38,7 @@ class Player(pg.sprite.Sprite):
         super(Player, self).__init__()
         self.image = pg.Surface((70, 50), pg.SRCALPHA)
         pg.draw.polygon(self.image, (50, 120, 180), ((0, 0), (0, 50), (70, 25)))
+        
         self.original_image = self.image
         self.rect = self.image.get_rect(center=pos)
         self.position = Vector2(pos)
@@ -51,7 +52,7 @@ class Player(pg.sprite.Sprite):
             # Rotate the direction vector and then the image.
             self.direction.rotate_ip(self.angle_speed)
             self.angle += self.angle_speed
-            print(self.angle)
+            print(360 - self.angle)
             print(i)
             self.image = pg.transform.rotate(self.original_image, -self.angle)
             self.rect = self.image.get_rect(center=self.rect.center)
@@ -73,7 +74,7 @@ def main():
     
     screen = pg.display.set_mode((700, 700)) #arena
     screen.blit(label, (100, 100))
-    player = Player((120, 120)) #starting postion
+    player = Player((350, 350)) #starting postion
     playersprite = pg.sprite.RenderPlain((player))
 
     clock = pg.time.Clock()
