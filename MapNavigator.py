@@ -56,7 +56,8 @@ class Player(pg.sprite.Sprite):
             self.image = pg.transform.rotate(self.original_image, -self.angle)
             self.rect = self.image.get_rect(center=self.rect.center)
         # Update the position vector and the rect.
-        self.position += -self.direction*self.speed #this controls postion
+        
+        self.position += self.direction*self.speed #this controls postion ACA HABIA UN MENOS
         self.rect.center = self.position
 
 
@@ -85,15 +86,15 @@ def main():
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_UP:
                     player.speed = 0.5
-                    forward(0.1)
+                    forward(0.3)
                 elif event.key == pg.K_DOWN:
                     player.speed = -0.5
-                    backward(0.1)
+                    backward(0.3)
                 elif event.key == pg.K_LEFT:
-                    player.angle_speed = -0.8
+                    player.angle_speed = 0.8
                     turn_left(0.1)
                 elif event.key == pg.K_RIGHT:
-                    player.angle_speed = 0.8
+                    player.angle_speed = -0.8
                     turn_right(0.1)
             elif event.type == pg.KEYUP:
                 if event.key == pg.K_LEFT:
