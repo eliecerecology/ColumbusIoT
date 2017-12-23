@@ -68,10 +68,7 @@ def main():
     myfont = pg.font.SysFont("monospace", 15)
     # render text
     label = myfont.render("Some text!", 1, (255,255,0))
-    
-
-
-    
+        
     screen = pg.display.set_mode((700, 700)) #arena
     screen.blit(label, (100, 100))
     player = Player((350, 350)) #starting postion
