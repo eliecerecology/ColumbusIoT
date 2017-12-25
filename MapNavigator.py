@@ -26,10 +26,11 @@ from PWNTestCompleted import turn_left
 hmc5883l = i2c_hmc5883l.i2c_hmc5883l(1) #choosing which i2c port to use, RPi2 model B uses port 1
 hmc5883l.setContinuousMode()
 hmc5883l.setDeclination(0,6) #in brakets (degrees, minute)
-
-i = hmc5883l
-print(i)
-
+i = hmc5883l.getHeading()
+g = i + 1526
+print(g)
+#print(i)
+#j = int(float(i))*3.14/180
 
 
 class Player(pg.sprite.Sprite):
@@ -52,8 +53,11 @@ class Player(pg.sprite.Sprite):
             # Rotate the direction vector and then the image.
             self.direction.rotate_ip(self.angle_speed)
             self.angle += self.angle_speed
-            print(360 - self.angle)
-            print(i)
+            j = self.angle +1000
+            print(j)
+            print("self.angle" + str(self.angle) + "radians")
+            #i = hmc5883l
+            #print(i)
             self.image = pg.transform.rotate(self.original_image, -self.angle)
             self.rect = self.image.get_rect(center=self.rect.center)
         # Update the position vector and the rect.
@@ -85,9 +89,13 @@ def main():
                 if event.key == pg.K_UP:
                     player.speed = 0.5
                     forward(0.3)
+                    #i = var
+                    #print(int(float(i)))
                 elif event.key == pg.K_DOWN:
                     player.speed = -0.5
                     backward(0.3)
+                    #i = var
+                    #print(int(float(i)))
                 elif event.key == pg.K_LEFT:
                     player.angle_speed = 0.8
                     turn_left(0.1)
