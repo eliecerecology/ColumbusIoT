@@ -15,4 +15,7 @@ GPIO.output(11,False)
 #GPIO.input(16,False)
 GPIO.output(7,False)
 GPIO.output(15,False)
+GPIO.output(40, False)
+GPIO.output(26, False)
+
 GPIO.cleanup()

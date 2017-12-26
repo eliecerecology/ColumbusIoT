@@ -70,14 +70,16 @@ def turn_left(tf):
 
 def distance(measure='cm'):
     initDist()
-    GPIO.output(pin5, GPIO.OUT)
+    GPIO.output(pin5, False)
+
     while GPIO.input(pin6) == 0:
         nosig = time.time()
 
-    while GPIO.input(pin5) == 1:
+    while GPIO.input(pin6) == 1:
         sig = time.time()
 
     t1 = sig - nosig
+    print(t1)
 
     if measure == 'cm':
         distance = t1/0.000058
@@ -85,6 +87,7 @@ def distance(measure='cm'):
         distance = t1/0.000148
     else:
         print('improper unit choice')
+    
     GPIO.cleanup()
     return distance
 
