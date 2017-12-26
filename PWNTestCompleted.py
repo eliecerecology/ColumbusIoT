@@ -1,20 +1,32 @@
 import RPi.GPIO as GPIO
 import time
-#import Tkinter as tk 
+ 
 
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
+# motors
 pin = 7 # forward right wheel
 pin2 = 11 #backward right wheel
 pin3 = 12 #forward left wheel
 pin4 = 13 #backward left wheel
+
+# Distance sensor HC-SR04
+pin5 = 40
+pin6 = 26 #Echo receiver, usin resistor 1kOhm
+
+
 
 def init():
     GPIO.setup(pin, GPIO.OUT)
     GPIO.setup(pin2, GPIO.OUT)
     GPIO.setup(pin3, GPIO.OUT)
     GPIO.setup(pin4, GPIO.OUT)
+
+def initDist():
+    #Distance sensort pins
+    GPIO.setup(pin5, GPIO.OUT)   
+    GPIO.setup(pin6, GPIO.IN) #echo
 
 def forward(tf):
     init()
@@ -55,6 +67,38 @@ def turn_left(tf):
     time.sleep(tf)
     p1.start(0)
     q1.start(0)
+
+def distance(measure='cm'):
+    initDist()
+    GPIO.output(pin5, GPIO.OUT)
+    while GPIO.input(pin6) == 0:
+        nosig = time.time()
+
+    while GPIO.input(pin5) == 1:
+        sig = time.time()
+
+    t1 = sig - nosig
+
+    if measure == 'cm':
+        distance = t1/0.000058
+    elif measure == 'in':
+        distance = t1/0.000148
+    else:
+        print('improper unit choice')
+    GPIO.cleanup()
+    return distance
+
+print(distance('cm'))
+
+
+
+
+
+
+
+
+
+
 
 #def key_input(event):
 
