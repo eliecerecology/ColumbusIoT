@@ -9,6 +9,7 @@ import RPi.GPIO as GPIO
 
 
 GPIO.setmode(GPIO.BOARD)
+#GPIO.cleanup()
 GPIO.setwarnings(False)
 pin = 7 # forward right wheel
 pin2 = 11 #backward right wheel
@@ -22,16 +23,14 @@ from PWNTestCompleted import turn_right
 from PWNTestCompleted import turn_left
 
 #HC-SR04 distance
-from sensor_dist import distance
-
+from sensor_distance import distance 
 #Magnetometer
 hmc5883l = i2c_hmc5883l.i2c_hmc5883l(1) #choosing which i2c port to use, RPi2 model B uses port 1
 hmc5883l.setContinuousMode()
 hmc5883l.setDeclination(0,6) #in brakets (degrees, minute)
 i = hmc5883l.getHeading() #here we obtain the angle from north
-g = i*1 
+g = i#*math.pi/180)
 obst = distance()
-
 
 
 print("obstacle at" , obst, "located at", g, "from north")
@@ -131,4 +130,4 @@ def main():
 if __name__ == '__main__':
     main()
     pg.quit()
-
+#
