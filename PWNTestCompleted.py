@@ -1,23 +1,16 @@
 import RPi.GPIO as GPIO
 import time
  
-
-
 GPIO.setmode(GPIO.BOARD)
-#GPIO.setwarnings(False)
+
 # motors
 pin = 7 # forward right wheel
 pin2 = 11 #backward right wheel
 pin3 = 12 #forward left wheel
 pin4 = 13 #backward left wheel
 
-# Distance sensor HC-SR04
-pin5 = 40
-pin6 = 26 #Echo receiver, usin resistor 1kOhm
-
-
-
 def init():
+    GPIO.setmode(GPIO.BOARD)
     GPIO.setup(pin, GPIO.OUT)
     GPIO.setup(pin2, GPIO.OUT)
     GPIO.setup(pin3, GPIO.OUT)
