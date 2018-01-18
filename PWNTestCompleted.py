@@ -25,6 +25,7 @@ def forward(tf):
     time.sleep(tf)
     p.start(0)
     p1.start(0)
+    GPIO.cleanup()
 
 def backward(tf):
     init()
@@ -35,27 +36,30 @@ def backward(tf):
     time.sleep(tf)
     q.start(0)
     q1.start(0)
+    GPIO.cleanup()
+
 
 def turn_right(tf):
     init()
-    p = GPIO.PWM(pin, 50)
-    q1= GPIO.PWM(pin4, 50)
-    p.start(60)
-    q1.start(60)
+    p = GPIO.PWM(pin, 60)
+    q1= GPIO.PWM(pin4, 60)
+    p.start(80)
+    q1.start(80)
     time.sleep(tf)
     p.start(0)
     q1.start(0)
+    GPIO.cleanup()
 
 def turn_left(tf):
     init()
-    p1 = GPIO.PWM(pin3, 50)
-    q1= GPIO.PWM(pin2, 50)
-    p1.start(60)
-    q1.start(60)
+    p1 = GPIO.PWM(pin3, 60)
+    q1= GPIO.PWM(pin2, 60)
+    p1.start(80)
+    q1.start(80)
     time.sleep(tf)
     p1.start(0)
     q1.start(0)
-
+    GPIO.cleanup()
 
 
 

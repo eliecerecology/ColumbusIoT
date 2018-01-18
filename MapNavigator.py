@@ -28,7 +28,7 @@ hmc5883l.setDeclination(0,6) #in brakets (degrees, minute)
 i = hmc5883l.getHeading() #here we obtain the angle from north
 g = (i*math.pi/180)
 obst = distance()
-print("obstacle at" , obst, "located at", g, "from north")
+#print("obstacle at" , obst, "located at", g, "from north")
 
 
 class Player(pg.sprite.Sprite):
@@ -50,10 +50,11 @@ class Player(pg.sprite.Sprite):
         if self.angle_speed != 0:
             # Rotate the direction vector and then the image.
             self.direction.rotate_ip(self.angle_speed)
-            self.angle += self.angle_speed
-            j = self.angle + 1000
-            print(j)
-            print("self.angle" + str(self.angle) + "radians")
+            #sensor Magneto
+            i = hmc5883l.getHeading()
+            g = (i*3.14/180)
+            self.angle += g #self.angle_speed
+            #print("self.angle" + str(self.angle) + "radians")
             #i = hmc5883l
             #print(i)
             self.image = pg.transform.rotate(self.original_image, -self.angle)
@@ -86,32 +87,36 @@ def main():
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_UP:
                     player.speed = 0.5
-                    forward(0.3)
+                    forward(1)
                     #i = var
                     #print(int(float(i)))
                 elif event.key == pg.K_DOWN:
                     player.speed = -0.5
-                    backward(0.3)
+                    backward(1)
                     #i = var
                     #print(int(float(i)))
                 elif event.key == pg.K_LEFT:
                     player.angle_speed = 0.8
-                    turn_left(0.1)
+                    turn_left(1)
                 elif event.key == pg.K_RIGHT:
                     player.angle_speed = -0.8
-                    turn_right(0.1)
+                    turn_right(1)
             elif event.type == pg.KEYUP:
                 if event.key == pg.K_LEFT:
                     player.angle_speed = 0
+                    GPIO.cleanup()
                 elif event.key == pg.K_RIGHT:
                     player.angle_speed = 0
+                    GPIO.cleanup()
                 elif event.key == pg.K_UP:
                     player.speed = 0
+                    GPIO.cleanup()
                 elif event.key == pg.K_DOWN:
                     player.speed = 0
+                    GPIO.cleanup()
                     
         playersprite.update()
-
+        GPIO.cleanup()
         screen.fill((30, 30, 30))
         playersprite.draw(screen)
         pg.display.flip()
