@@ -25,6 +25,7 @@ from sensor_distance import distance
 hmc5883l = i2c_hmc5883l.i2c_hmc5883l(1) #choosing which i2c port to use, RPi2 model B uses port 1
 hmc5883l.setContinuousMode()
 hmc5883l.setDeclination(0,6) #in brakets (degrees, minute)
+
 i = hmc5883l.getHeading() #here we obtain the angle from north
 g = (i*math.pi/180)
 obst = distance()
@@ -85,20 +86,20 @@ def main():
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_UP:
                     player.speed = 0.5 #SOLO VELOCITY
-                    forward(0.3)
+                    forward(0.5)
                     #i = var
                     #print(int(float(i)))
                 elif event.key == pg.K_DOWN:
                     player.speed = -0.5
-                    backward(0.3)
+                    backward(0.5)
                     #i = var
                     #print(int(float(i)))
                 elif event.key == pg.K_LEFT:
                     player.angle_speed = 0.8
-                    turn_left(0.1)
+                    turn_left(0.3)
                 elif event.key == pg.K_RIGHT:
                     player.angle_speed = -0.8 # angle speed is anf
-                    turn_right(0.1)
+                    turn_right(0.3)
             elif event.type == pg.KEYUP:
                 if event.key == pg.K_LEFT:
                     player.angle_speed = 0
