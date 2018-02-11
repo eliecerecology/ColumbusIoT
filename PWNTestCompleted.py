@@ -65,10 +65,10 @@ def turn_left(tf):
 
 #def key_input(event):
 
-#forward(2)
-#backward(2)
-#turn_right(2)
-#turn_left(2)
+forward(1)
+backward(1)
+turn_right(1)
+turn_left(1)
 
 
 
