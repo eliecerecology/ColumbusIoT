@@ -14,7 +14,7 @@ def distance():
 
     time.sleep(0.1)
 
-    print("measuring..")
+    #print("measuring..")
 
     GPIO.output(TRIG,1)
     time.sleep(0.00001)
@@ -29,8 +29,8 @@ def distance():
     stop = time.time()
 
     t = round((stop - start) * 17000, 2)
-    print(t)
-
+    #print(t)
+    return t
     GPIO.cleanup()
     #return t
 

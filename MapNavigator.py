@@ -2,10 +2,11 @@ import math
 import pygame as pg
 from pygame.math import Vector2
 from i2clibraries import i2c_hmc5883l
- 
 import time
-
 import RPi.GPIO as GPIO
+import matplotlib
+matplotlib.use("Qt5Agg")
+import matplotlib.pyplot as plt
 
 pin = 7 # forward right wheel
 pin2 = 11 #backward right wheel
@@ -26,12 +27,11 @@ hmc5883l = i2c_hmc5883l.i2c_hmc5883l(1) #choosing which i2c port to use, RPi2 mo
 hmc5883l.setContinuousMode()
 hmc5883l.setDeclination(0,6) #in brakets (degrees, minute)
 
-i = hmc5883l.getHeading() #here we obtain the angle from north
-g = (i*math.pi/180)
-obst = distance()
-print("obstacle at" , obst, "located at", g, "from north")
-
-
+#i = hmc5883l.getHeading() #here we obtain the angle from north
+#g = (i*math.pi/180)
+#obst = distance()
+#print("obstacle at" , obst, "located at", g, "from north")
+time.sleep(5)
 class Player(pg.sprite.Sprite):
 
     def __init__(self, pos=(220, 220)):
@@ -78,27 +78,53 @@ def main():
 
     clock = pg.time.Clock()
     done = False
-    while not done:
+    angle = [hmc5883l.getHeading()*3.14/180]
+    dista = []
+    t = []
+    #j = 0
+    #while not done:
+    for j in range(0,10):
         clock.tick(60)
+        time.sleep(1)
+        #j += 1
+
+        #for j in range(0,10):
+        turn_right(0.1)
+        player.angle_speed = angle[j]#-0.5
+        print(hmc5883l.getHeading())
+        print(hmc5883l.getHeading()*3.14/180, "radianes")
+        print(distance(), "distance")
+        angle.append(hmc5883l.getHeading()*3.14/180)
+        dista.append(distance())
+        t.append(j)
+        time.sleep(0.5)
+        
+        playersprite.update()
+
+        screen.fill((30, 30, 30))
+        playersprite.draw(screen)
+        pg.display.flip()
+       
+    '''MANUAL CONTROL
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 done = True
             elif event.type == pg.KEYDOWN:
                 if event.key == pg.K_UP:
-                    player.speed = 0.5 #SOLO VELOCITY
-                    forward(0.5)
+                    player.speed = 0.3 #SOLO VELOCITY
+                    forward(0.2)
                     #i = var
                     #print(int(float(i)))
                 elif event.key == pg.K_DOWN:
-                    player.speed = -0.5
-                    backward(0.5)
+                    player.speed = -0.3
+                    backward(0.3)
                     #i = var
                     #print(int(float(i)))
                 elif event.key == pg.K_LEFT:
-                    player.angle_speed = 0.8
+                    player.angle_speed = 0.3
                     turn_left(0.3)
                 elif event.key == pg.K_RIGHT:
-                    player.angle_speed = -0.8 # angle speed is anf
+                    player.angle_speed = -0.3 # angle speed is anf
                     turn_right(0.3)
             elif event.type == pg.KEYUP:
                 if event.key == pg.K_LEFT:
@@ -109,13 +135,10 @@ def main():
                     player.speed = 0
                 elif event.key == pg.K_DOWN:
                     player.speed = 0
-                    
-        playersprite.update()
-
-        screen.fill((30, 30, 30))
-        playersprite.draw(screen)
-        pg.display.flip()
-
+        '''            
+        
+    #plt.plot(t, angle)
+    #plt.show()
 if __name__ == '__main__':
     main()
     pg.quit()

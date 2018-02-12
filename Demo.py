@@ -1,4 +1,6 @@
 import RPi.GPIO as GPIO
+import matplotlib
+matplotlib.use("Qt5Agg")
 import matplotlib.pyplot as plt
 import time
 import math
@@ -68,52 +70,34 @@ def turn_left(tf):
     q1.start(0)
     GPIO.cleanup()
 
+def stop():
+    #p.start(0)
+    q.start(0)
+    p1.start(0)
+    q1.start(0)
+    GPIO.cleanup()
+
 hmc5883l = i2c_hmc5883l.i2c_hmc5883l(1) #choosing which i2c port to use, RPi2 model B uses port 1
 hmc5883l.setContinuousMode()
 hmc5883l.setDeclination(0,6) #in brakets (degrees, minute)
-i = hmc5883l.getHeading() #here we obtain the angle from north    GPIO.cleanup()
-print(i)
+#i = hmc5883l.getHeading() #here we obtain the angle from north    GPIO.cleanup()
 
-'''
-#Start
-for j in range(0,9):
-    hmc5883l = i2c_hmc5883l.i2c_hmc5883l(1) #choosing which i2c port to use, RPi2 model B uses port 1
-    hmc5883l.setContinuousMode()
-    hmc5883l.setDeclination(0,6) #in brakets (degrees, minute)
-    i = hmc5883l.getHeading() #here we obtain the angle from north
-    g = (i*math.pi/180)
-    print(j ,i, "i")
-    print(g, "g")
-    time.sleep(5)
-    
-'''
 angle = []
-for j in range(0,20):
+dista = []
+t = []
+
+for j in range(0,10):
     turn_right(0.1)
     print(hmc5883l.getHeading())
+    print(distance(), "distance")
     angle.append(hmc5883l.getHeading())
-    time.sleep(1)
-
-
-
-import matplotlib.pyplot as plt
-plt.plot(j, angle)
+    dista.append(distance())
+    t.append(j)
+    time.sleep(0.5)
+    if angle[j] < 0 or angle[j] > 350:
+        stop()
+        print("stop")
+      
+plt.plot(dista, angle)
 plt.show()
-'''
 
-
-if i > float(200.0):
-    turn_right(2)
-    j = hmc5883l.getHeading()
-    if (j-i) > float(45):
-        turn_left(1)
-        #GPIO.cleanup()
-        print("HOLA")
-
-else:
-    print("WTF")
-GPIO.cleanup()
-'''
- 
-
-   
