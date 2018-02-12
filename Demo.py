@@ -94,7 +94,10 @@ for j in range(0,20):
     angle.append(hmc5883l.getHeading())
     time.sleep(1)
 
-plt.scatter(i, angle)
+
+
+import matplotlib.pyplot as plt
+plt.plot(j, angle)
 plt.show()
 '''
 
