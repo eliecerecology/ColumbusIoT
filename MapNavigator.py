@@ -85,16 +85,15 @@ def main():
     #while not done:
     for j in range(0,10):
         clock.tick(60)
-        time.sleep(1)
         #j += 1
 
         #for j in range(0,10):
         turn_right(0.1)
         player.angle_speed = angle[j]#-0.5
         print(hmc5883l.getHeading())
-        print(hmc5883l.getHeading()*3.14/180, "radianes")
+        print(hmc5883l.getHeading()*3.14/180, "radians")
         print(distance(), "distance")
-        angle.append(hmc5883l.getHeading()*3.14/180)
+        angle.append(hmc5883l.getHeading()*3.14/180 + 8.4)
         dista.append(distance())
         t.append(j)
         time.sleep(0.5)
