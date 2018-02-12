@@ -79,7 +79,7 @@ g = (i*math.pi/180)
 obst = distance()
 print("obstacle at" , obst, "located at", g, "from north")
 
-turn_right(1)
+turn_right(3)
 i = hmc5883l.getHeading() #here we obtain the angle from north
 g = (i*math.pi/180)
 obst = distance()
