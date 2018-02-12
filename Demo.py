@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+import matplotlib.pyplot as plt
 import time
 import math
 import pygame as pg
@@ -67,13 +68,10 @@ def turn_left(tf):
     q1.start(0)
     GPIO.cleanup()
 
-
-
-
-#Start
 hmc5883l = i2c_hmc5883l.i2c_hmc5883l(1) #choosing which i2c port to use, RPi2 model B uses port 1
 hmc5883l.setContinuousMode()
 hmc5883l.setDeclination(0,6) #in brakets (degrees, minute)
+<<<<<<< HEAD
 i = hmc5883l.getHeading() #here we obtain the angle from north
 g = (i*math.pi/180)
 obst = distance()
@@ -84,32 +82,48 @@ i = hmc5883l.getHeading() #here we obtain the angle from north
 g = (i*math.pi/180)
 obst = distance()
 print("obstacle at" , obst, "located at", g, "from north")
+=======
+i = hmc5883l.getHeading() #here we obtain the angle from north    GPIO.cleanup()
+print(i)
+>>>>>>> f1601e7385de74f577e2c4d547da3dc51ef4140f
 
 '''
-forward(1)
-i = hmc5883l.getHeading() #here we obtain the angle from north
-g = (i*math.pi/180)
-obst = distance()
-print("obstacle at" , obst, "located at", g, "from north")
-backward(1)
-i = hmc5883l.getHeading() #here we obtain the angle from north
-g = (i*math.pi/180)
-obst = distance()
-print("obstacle at" , obst, "located at", g, "from north")
+#Start
+for j in range(0,9):
+    hmc5883l = i2c_hmc5883l.i2c_hmc5883l(1) #choosing which i2c port to use, RPi2 model B uses port 1
+    hmc5883l.setContinuousMode()
+    hmc5883l.setDeclination(0,6) #in brakets (degrees, minute)
+    i = hmc5883l.getHeading() #here we obtain the angle from north
+    g = (i*math.pi/180)
+    print(j ,i, "i")
+    print(g, "g")
+    time.sleep(5)
+    
+'''
+angle = []
+for j in range(0,20):
+    turn_right(0.1)
+    print(hmc5883l.getHeading())
+    angle.append(hmc5883l.getHeading())
+    time.sleep(1)
 
-turn_right(1)
-turn_left(1)
-
-
-
-#for  i in range(40, 60, 10): #frequency pulse per second
-#    for j in range(40,60,10): #duty cycle
-#        p = GPIO.PWM(pin, i)
-#        p.start(j)
-#        print("duty cycle", j)
-#        print("frquency=", i)
-#        time.sleep(2)
-#'''
+plt.scatter(i, angle)
+plt.show()
+'''
 
 
+if i > float(200.0):
+    turn_right(2)
+    j = hmc5883l.getHeading()
+    if (j-i) > float(45):
+        turn_left(1)
+        #GPIO.cleanup()
+        print("HOLA")
 
+else:
+    print("WTF")
+GPIO.cleanup()
+'''
+ 
+
+   
