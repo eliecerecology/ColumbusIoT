@@ -43,8 +43,8 @@ def turn_right(tf):
     init()
     p = GPIO.PWM(pin, 60)
     q1= GPIO.PWM(pin4, 60)
-    p.start(80)
-    q1.start(80)
+    p.start(60)
+    q1.start(60)
     time.sleep(tf)
     p.start(0)
     q1.start(0)
@@ -54,8 +54,8 @@ def turn_left(tf):
     init()
     p1 = GPIO.PWM(pin3, 60)
     q1= GPIO.PWM(pin2, 60)
-    p1.start(80)
-    q1.start(80)
+    p1.start(60)
+    q1.start(60)
     time.sleep(tf)
     p1.start(0)
     q1.start(0)
@@ -65,10 +65,6 @@ def turn_left(tf):
 
 #def key_input(event):
 
-forward(1)
-backward(1)
-turn_right(1)
-turn_left(1)
 
 
 
