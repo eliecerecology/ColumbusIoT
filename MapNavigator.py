@@ -38,12 +38,8 @@ class Player(pg.sprite.Sprite):
         super(Player, self).__init__()
         self.image = pg.Surface((70, 50), pg.SRCALPHA)
         pg.draw.polygon(self.image, (50, 120, 180), ((0, 0), (0, 50), (70, 25)))
-        
         self.original_image = self.image
         self.rect = self.image.get_rect(center=pos)
-
-
-
         self.position = Vector2(pos)
         self.direction = Vector2(1, 0)  # A unit vector pointing rightward.
         self.speed = 0
@@ -55,7 +51,6 @@ class Player(pg.sprite.Sprite):
             # Rotate the direction vector and then the image.
             self.direction.rotate_ip(self.angle_speed) #esta mierda
             self.angle += self.angle_speed
-
             self.image = pg.transform.rotate(self.original_image, -self.angle)
             self.rect = self.image.get_rect(center=self.rect.center)
         # Update the position vector and the rect.
@@ -69,7 +64,7 @@ def main():
 
     myfont = pg.font.SysFont("monospace", 15)
     # render text
-    label = myfont.render("Some text!", 1, (255,255,0))
+    label = myfont.render("ARENA", 1, (255,255,0))
         
     screen = pg.display.set_mode((700, 700)) #arena
     screen.blit(label, (100, 100))
@@ -83,25 +78,36 @@ def main():
     t = []
     #j = 0
     #while not done:
-    for k in range(0, 100):    
-        for j in range(0,15):
+    for k in range(0, 70):    
+        for j in range(0, 70): 
                 clock.tick(60)
                 turn_left(0.1)
                 player.angle_speed = angle[j]#-0.5
-                print(hmc5883l.getHeading())
+                print(hmc5883l.getHeading(), "angles")
                 print(hmc5883l.getHeading()*3.14/180, "radians")
                 print(distance(), "distance")
-                angle.append(hmc5883l.getHeading()*3.14/180 + 8.4)
+                angle.append(hmc5883l.getHeading()*3.14/180 + 5.4)
                 dista.append(distance())
                 t.append(j)
-                time.sleep(0.5)
+                time.sleep(0.2)
                 playersprite.update()
                 screen.fill((30, 30, 30))
                 playersprite.draw(screen)
                 pg.display.flip()
                 
-        print(max(dista), "max distance")       
-            
+        
+        print(max(dista), " = max distance", max(angle), "=max angle")
+        print(dista.index(max(dista)))
+        print(dista)
+        
+        turn_left(0.1*dista.index(max(dista)))
+        player.angle_speed = angle[dista.index(max(dista))]#-0.5
+        time.sleep(1)
+        forward(1)
+        player.speed = angle[j]
+        time.sleep(5)
+        GPIO.cleanup()
+        
         playersprite.update()
         screen.fill((30, 30, 30))
         playersprite.draw(screen)
