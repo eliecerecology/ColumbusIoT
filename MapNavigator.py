@@ -78,7 +78,7 @@ def main():
     t = []
     #j = 0
     #while not done:
-    for k in range(0, 70):    
+    for k in range(0, 2):    
         for j in range(0, 70): 
                 clock.tick(60)
                 turn_left(0.1)
@@ -86,7 +86,7 @@ def main():
                 print(hmc5883l.getHeading(), "angles")
                 print(hmc5883l.getHeading()*3.14/180, "radians")
                 print(distance(), "distance")
-                angle.append(hmc5883l.getHeading()*3.14/180 + 5.4)
+                angle.append(hmc5883l.getHeading()*3.14/180 + 4.4)
                 dista.append(distance())
                 t.append(j)
                 time.sleep(0.2)
@@ -106,7 +106,9 @@ def main():
         forward(1)
         player.speed = angle[j]
         time.sleep(5)
-        GPIO.cleanup()
+        angle = [hmc5883l.getHeading()*3.14/180]
+        dista = []
+        t = []
         
         playersprite.update()
         screen.fill((30, 30, 30))
