@@ -73,23 +73,34 @@ def main():
 
     clock = pg.time.Clock()
     done = False
-    angle = [hmc5883l.getHeading()*3.14/180]
+    
+    angle_r = [hmc5883l.getHeading()*3.14/180]
+    angle = []
     dista = []
     t = []
-    #j = 0
+    
     #while not done:
-    for k in range(0, 2):    
-        for j in range(0, 70): 
+    for k in range(0, 2):
+        
+                   
+        angle = [hmc5883l.getHeading()*3.14/180]
+        dista = []
+        t = []
+        for j in range(0, 8): 
                 clock.tick(60)
-                turn_left(0.1)
-                player.angle_speed = angle[j]#-0.5
+                turn_left(45/320) #0.29s = 90
+                player.angle_speed = 1 #-0.5
+                
                 print(hmc5883l.getHeading(), "angles")
-                print(hmc5883l.getHeading()*3.14/180, "radians")
+                #print(hmc5883l.getHeading()*3.14/180, "radians")
                 print(distance(), "distance")
-                angle.append(hmc5883l.getHeading()*3.14/180 + 4.4)
+                angle.append(hmc5883l.getHeading())
+                angle_r.append(hmc5883l.getHeading()*3.14/180 + 4.4)
+                
                 dista.append(distance())
                 t.append(j)
                 time.sleep(0.2)
+                
                 playersprite.update()
                 screen.fill((30, 30, 30))
                 playersprite.draw(screen)
@@ -100,15 +111,55 @@ def main():
         print(dista.index(max(dista)))
         print(dista)
         
-        turn_left(0.1*dista.index(max(dista)))
-        player.angle_speed = angle[dista.index(max(dista))]#-0.5
+        turn_left(max(angle)/320)
+        player.angle_speed = max(angle)/320#-0.5
+            
         time.sleep(1)
-        forward(1)
-        player.speed = angle[j]
+        
+        forward(max(dista)/36)
+        player.speed = max(dista)/36
+        ######END LOOP##############
+        
+        
         time.sleep(5)
         angle = [hmc5883l.getHeading()*3.14/180]
         dista = []
         t = []
+        
+        for j in range(0, 8): 
+                clock.tick(60)
+                turn_left(45/320) #0.29s = 90
+                player.angle_speed = hmc5883l.getHeading()*3.14/180 + 4.4 #45/320 #-0.5
+                
+                print(hmc5883l.getHeading(), "angles")
+                #print(hmc5883l.getHeading()*3.14/180, "radians")
+                print(distance(), "distance")
+                angle.append(hmc5883l.getHeading())
+                angle_r.append(hmc5883l.getHeading()*3.14/180 + 4.4)
+                
+                dista.append(distance())
+                t.append(j)
+                time.sleep(0.2)
+                
+                playersprite.update()
+                screen.fill((30, 30, 30))
+                playersprite.draw(screen)
+                pg.display.flip()
+                
+        
+        print(max(dista), " = max distance", max(angle), "=max angle")
+        print(dista.index(max(dista)))
+        print(dista)
+        
+        turn_left(max(angle)/320)
+        player.angle_speed = max(angle)/320#-0.5
+            
+        time.sleep(1)
+        
+        forward(max(dista)/36)
+        player.speed = max(dista)/36
+          
+        
         
         playersprite.update()
         screen.fill((30, 30, 30))
@@ -116,7 +167,8 @@ def main():
         pg.display.flip()
         
             
-        '''MANUAL CONTROL
+        '''
+MANUAL CONTROL
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     done = True
